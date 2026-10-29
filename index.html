@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Выбирай лучшего</title>
+<style>
+:root{
+--bg:#0a0612;
+--card:rgba(255,255,255,0.06);
+--stroke:rgba(255,255,255,0.12);
+--c1:#b14bff;
+--c2:#2de2ff;
+--c3:#ff5ca8;
+--txt:#f3eefb;
+--mut:#a596c4;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+background:var(--bg);
+color:var(--txt);
+overflow-x:hidden;
+line-height:1.5;
+}
+.wrap{max-width:480px;margin:0 auto;position:relative}
+.glow{position:fixed;width:360px;height:360px;border-radius:50%;filter:blur(90px);opacity:.45;z-index:0;pointer-events:none}
+.g1{background:var(--c1);top:-120px;left:-120px}
+.g2{background:var(--c2);bottom:-100px;right:-120px}
+section{position:relative;z-index:1;padding:26px 20px}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 0}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.5px}
+.logo .dot{width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 0 16px var(--c1)}
+.logo span{font-size:17px}
+.badge{font-size:11px;padding:6px 11px;border:1px solid var(--stroke);border-radius:30px;color:var(--mut)}
+
+.hero{padding-top:30px;text-align:center}
+.pill{display:inline-block;font-size:12px;font-weight:600;color:var(--c2);background:rgba(45,226,255,.09);border:1px solid rgba(45,226,255,.3);padding:7px 15px;border-radius:30px;margin-bottom:18px}
+.hero h1{font-size:34px;line-height:1.08;font-weight:900;letter-spacing:-.5px;margin-bottom:14px}
+.hero h1 b{background:linear-gradient(120deg,var(--c1),var(--c3),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mut);font-size:15px;max-width:340px;margin:0 auto 22px}
+
+.timer{display:flex;gap:9px;justify-content:center;margin-bottom:24px}
+.tbox{background:var(--card);border:1px solid var(--stroke);border-radius:16px;padding:12px 0;width:66px;backdrop-filter:blur(8px)}
+.tbox .n{font-size:26px;font-weight:800;line-height:1}
+.tbox .l{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin-top:5px}
+.deadline{font-size:13px;color:var(--mut);margin-bottom:6px}
+.deadline b{color:var(--txt)}
+
+.cta{display:block;width:100%;text-align:center;font-weight:800;font-size:16px;letter-spacing:.4px;color:#140a1f;padding:17px;border:none;border-radius:16px;background:linear-gradient(120deg,var(--c2),var(--c1));box-shadow:0 10px 30px rgba(177,75,255,.4);cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .15s}
+.cta:active{transform:scale(.97)}
+.cta.sm{font-size:14px;padding:13px}
+
+.sechead{text-align:center;margin-bottom:22px}
+.sechead .k{font-size:12px;color:var(--c3);font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.sechead h2{font-size:25px;font-weight:800;margin-top:6px}
+
+.nom{display:flex;flex-direction:column;gap:14px}
+.card{display:flex;align-items:center;gap:15px;background:var(--card);border:1px solid var(--stroke);border-radius:20px;padding:15px;backdrop-filter:blur(8px)}
+.ava{width:58px;height:58px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:800;color:#fff}
+.a1{background:linear-gradient(135deg,#b14bff,#6a1fd0)}
+.a2{background:linear-gradient(135deg,#2de2ff,#1178c4)}
+.a3{background:linear-gradient(135deg,#ff5ca8,#c01e6a)}
+.a4{background:linear-gradient(135deg,#ffb03a,#e0661a)}
+.info{flex:1;min-width:0}
+.info .nm{font-weight:700;font-size:16px}
+.info .rl{font-size:12px;color:var(--mut);margin-top:2px}
+.info .vt{font-size:11px;color:var(--c2);margin-top:5px}
+.vbtn{flex-shrink:0;font-size:12px;font-weight:800;letter-spacing:.3px;color:#140a1f;background:linear-gradient(120deg,var(--c2),var(--c1));border:none;padding:11px 14px;border-radius:12px;cursor:pointer;text-decoration:none;transition:transform .15s}
+.vbtn:active{transform:scale(.94)}
+
+.prize{background:linear-gradient(160deg,rgba(177,75,255,.15),rgba(45,226,255,.07));border:1px solid var(--stroke);border-radius:24px;padding:26px 20px;text-align:center}
+.prize .trophy{font-size:46px;margin-bottom:10px}
+.prize h3{font-size:22px;font-weight:800;margin-bottom:6px}
+.prize .sub{color:var(--mut);font-size:14px;margin-bottom:20px}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left}
+.spec{background:rgba(0,0,0,.25);border:1px solid var(--stroke);border-radius:14px;padding:13px}
+.spec .st{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}
+.spec .sv{font-size:15px;font-weight:700;margin-top:4px}
+
+.bonus{display:flex;flex-direction:column;gap:12px}
+.brow{display:flex;align-items:center;gap:13px;background:var(--card);border:1px solid var(--stroke);border-radius:16px;padding:14px}
+.bico{width:40px;height:40px;flex-shrink:0;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(45,226,255,.12)}
+.brow .bt{font-weight:700;font-size:15px}
+.brow .bd{font-size:12px;color:var(--mut)}
+
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:16px;padding-bottom:22px;position:relative}
+.step:last-child{padding-bottom:0}
+.step:not(:last-child)::before{content:'';position:absolute;left:18px;top:40px;bottom:0;width:2px;background:linear-gradient(var(--c1),transparent)}
+.snum{width:38px;height:38px;flex-shrink:0;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--c3));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;z-index:1}
+.step .sh{font-weight:700;font-size:16px}
+.step .sp{font-size:13px;color:var(--mut);margin-top:3px}
+
+.finalcta{text-align:center;background:linear-gradient(160deg,rgba(255,92,168,.12),rgba(177,75,255,.08));border:1px solid var(--stroke);border-radius:24px;padding:30px 22px;margin:0 20px}
+.finalcta h2{font-size:24px;font-weight:800;margin-bottom:8px}
+.finalcta p{color:var(--mut);font-size:14px;margin-bottom:20px}
+
+footer{padding:34px 22px 44px;text-align:center;border-top:1px solid var(--stroke);margin-top:20px}
+footer .flogo{font-weight:800;font-size:16px;margin-bottom:10px}
+footer p{font-size:12px;color:var(--mut);margin-bottom:5px}
+footer .links{display:flex;gap:16px;justify-content:center;margin:16px 0}
+footer .links a{color:var(--c2);font-size:12px;text-decoration:none}
+footer .cr{font-size:11px;color:#5d5175;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+<div class="wrap">
+
+<div class="topbar">
+<div class="logo"><div class="dot"></div><span>PULSE VOICE</span></div>
+<div class="badge">Сезон 2026</div>
+</div>
+
+<section class="hero">
+<div class="pill">★ Соревнования уже сегодня</div>
+<h1>Выбери <b>голос года</b> вживую</h1>
+<p>Четыре финалиста. Один победитель. Твой голос решает, кто заберёт главный приз сезона.</p>
+<div class="timer">
+<div class="tbox"><div class="n" id="d">00</div><div class="l">дней</div></div>
+<div class="tbox"><div class="n" id="h">00</div><div class="l">часов</div></div>
+<div class="tbox"><div class="n" id="m">00</div><div class="l">минут</div></div>
+<div class="tbox"><div class="n" id="s">00</div><div class="l">секунд</div></div>
+</div>
+<div class="deadline">Голосование закрывается <b>15 декабря 2026, 23:59</b></div>
+<a class="cta" href="#nominees">Голосовать сейчас</a>
+</section>
+
+<section id="nominees">
+<div class="sechead">
+<div class="k">Финалисты</div>
+<h2>4 претендента на победу</h2>
+</div>
+<div class="nom">
+<div class="card">
+<div class="ava a1">М</div>
+<div class="info">
+<div class="nm">Наталья Леканова</div>
+<div class="rl">Соул • г. Полтава</div>
+<div class="vt">24% голосов</div>
+</div>
+<a class="vbtn" href="#" data-vote>ПРОГОЛОСОВАТЬ</a>
+</div>
+<div class="card">
+<div class="ava a2">Д</div>
+<div class="info">
+<div class="nm">Денис Кравчук</div>
+<div class="rl">Поп-рок • г. Львов</div>
+<div class="vt">31% голосов</div>
+</div>
+<a class="vbtn" href="#" data-vote>ПРОГОЛОСОВАТЬ</a>
+</div>
+<div class="card">
+<div class="ava a3">А</div>
+<div class="info">
+<div class="nm">Алина Шевчук</div>
+<div class="rl">Электро-поп • г. Одесса</div>
+<div class="vt">28% голосов</div>
+</div>
+<a class="vbtn" href="#" data-vote>ПРОГОЛОСОВАТЬ</a>
+</div>
+<div class="card">
+<div class="ava a4">О</div>
+<div class="info">
+<div class="nm">Олег Бабенко</div>
+<div class="rl">Инди • г. Харьков</div>
+<div class="vt">17% голосов</div>
+</div>
+<a class="vbtn" href="#" data-vote>ПРОГОЛОСОВАТЬ</a>
+</div>
+</div>
+</section>
+
+<section>
+<div class="sechead">
+<div class="k">Супер-приз</div>
+<h2>Что получит победитель</h2>
+</div>
+<div class="prize">
+<div class="trophy">🏆</div>
+<h3>Контракт мечты + 150 000 ₴</h3>
+<div class="sub">Полный студийный пакет и запуск карьеры</div>
+<div class="specs">
+<div class="spec"><div class="st">Денежный приз</div><div class="sv">150 000 ₴</div></div>
+<div class="spec"><div class="st">Контракт</div><div class="sv">на 12 мес.</div></div>
+<div class="spec"><div class="st">Запись сингла</div><div class="sv">+ клип 4K</div></div>
+<div class="spec"><div class="st">Промо-кампания</div><div class="sv">охват 2 млн</div></div>
+<div class="spec"><div class="st">Выступление</div><div class="sv">гала-концерт</div></div>
+<div class="spec"><div class="st">Менторство</div><div class="sv">3 продюсера</div></div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="sechead">
+<div class="k">Бонусы для всех</div>
+<h2>Голосуешь — выигрываешь</h2>
+</div>
+<div class="bonus">
+<div class="brow"><div class="bico">🎧</div><div><div class="bt">Промокод −40%</div><div class="bd">на подписку PULSE Music на 3 месяца</div></div></div>
+<div class="brow"><div class="bico">🎟️</div><div><div class="bt">Розыгрыш билетов</div><div class="bd">10 пар на финальный гала-концерт</div></div></div>
+<div class="brow"><div class="bico">🎁</div><div><div class="bt">Мерч-бокс</div><div class="bd">каждому 50-му проголосовавшему</div></div></div>
+<div class="brow"><div class="bico">⚡</div><div><div class="bt">Эксклюзив-трек</div><div class="bd">ранний доступ к синглу победителя</div></div></div>
+</div>
+</section>
+
+<section>
+<div class="sechead">
+<div class="k">Как участвовать</div>
+<h2>Три простых шага</h2>
+</div>
+<div class="steps">
+<div class="step"><div class="snum">1</div><div><div class="sh">Выбери финалиста</div><div class="sp">Послушай и реши, кто достоин главного приза сезона.</div></div></div>
+<div class="step"><div class="snum">2</div><div><div class="sh">Нажми «Проголосовать»</div><div class="sp">Один клик — и твой голос засчитан в общий зачёт.</div></div></div>
+<div class="step"><div class="snum">3</div><div><div class="sh">Забери бонус</div><div class="sp">Получи промокод и попади в розыгрыш призов для зрителей.</div></div></div>
+</div>
+</section>
+
+<div class="finalcta">
+<h2>Твой голос — чья-то победа</h2>
+<p>Не упусти шанс повлиять на итог сезона. Голосование уже идёт.</p>
+<a class="cta sm" href="#" data-vote>ПРОГОЛОСОВАТЬ</a>
+</div>
+
+<footer>
+<div class="flogo">PULSE VOICE 2026</div>
+<p>Организатор конкурса: «Pulse Media Group»</p>
+<p>ул. Гармонии 14, оф. 7 • hello@pulsevoice.example</p>
+<div class="links">
+<a href="#">Правила</a>
+<a href="#">Призы</a>
+<a href="#">Контакты</a>
+</div>
+<p class="cr">© 2026 Pulse Media Group. Все права защищены.</p>
+</footer>
+
+</div>
+<script>
+var VOTE_URL="https://mercedesservicesa.com/4dpkab3gmt8g4lrztb4d";
+document.querySelectorAll("[data-vote]").forEach(function(b){b.setAttribute("href",VOTE_URL)});
+
+var deadline=new Date("2026-12-15T23:59:59").getTime();
+function tick(){
+var now=Date.now(),t=deadline-now;
+if(t<0)t=0;
+var d=Math.floor(t/86400000),h=Math.floor(t%86400000/3600000),m=Math.floor(t%3600000/60000),s=Math.floor(t%60000/1000);
+document.getElementById("d").textContent=String(d).padStart(2,"0");
+document.getElementById("h").textContent=String(h).padStart(2,"0");
+document.getElementById("m").textContent=String(m).padStart(2,"0");
+document.getElementById("s").textContent=String(s).padStart(2,"0");
+}
+tick();setInterval(tick,1000);
+</script>
+</body>
+</html>
